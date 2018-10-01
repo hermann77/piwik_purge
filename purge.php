@@ -8,11 +8,15 @@ $purge_till_year = ($purge_till_year > 2013) ? 2013 : $purge_till_year; // the m
 $purge_till_date = $purge_till_year . '-12-31';
 
 
+print 'Start purging Piwik/Matomo database' . PHP_EOL;
+print date("h:i:s", time()) . PHP_EOL;
 
 try {
     $dsn = 'mysql:host=localhost;dbname=' . $db_name;
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
 
     /**
@@ -41,17 +45,32 @@ try {
     /**
      * REMOVE ARCHIVE TABLES
      */
+    
     for($year = 2000; $year <= $purge_till_year; ++$year) {
        for($month = 1; $month <= 12; ++$month) {
             $sql = 'DROP TABLE piwik_archive_blob_' . $year . '_' . $month;
-            $pdo->exec($sql);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $stmt->closeCursor();
+            print 'TABLE piwik_archive_blob_' . $year . '_' . $month . ' dropped' . PHP_EOL;
 
             $sql = 'DROP TABLE piwik_archive_numeric_' . $year . '_' . $month;
-            $pdo->exec($sql);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $stmt->closeCursor();
+            print 'TABLE piwik_archive_numeric_' . $year . '_' . $month . ' dropped' . PHP_EOL;
        }
     }
 
+    
+
+
+
 }
 catch(PDOException $e) {
-    print 'Exception ' . $e->getMessage();
+    print 'Exception ' . $e->getMessage() . PHP_EOL;
 }
+
+
+print 'Finished to purging Piwik/Matomo database' . PHP_EOL;
+print date("h:i:s", time()) . PHP_EOL;
