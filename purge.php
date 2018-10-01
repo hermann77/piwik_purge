@@ -4,7 +4,8 @@ $db_name = $argv[1];
 $username = $argv[2];
 $password = $argv[3];
 $purge_till_year = $argv[4]; // format: 'YYYY', e.g. '2013'
-$purge_till_date = $purge_till_year . '12-31';
+$purge_till_year = ($purge_till_year > 2013) ? 2013 : $purge_till_year; // the max year = 2013 (to avoid remove current data)
+$purge_till_date = $purge_till_year . '-12-31';
 
 
 
@@ -42,7 +43,10 @@ try {
      */
     for($year = 2000; $year <= $purge_till_year; ++$year) {
        for($month = 1; $month <= 12; ++$month) {
-            $sql = 'DROP TABLE piwik_archive_blob_2004_01';
+            $sql = 'DROP TABLE piwik_archive_blob_' . $year . '_' . $month;
+            $pdo->exec($sql);
+
+            $sql = 'DROP TABLE piwik_archive_numeric_' . $year . '_' . $month;
             $pdo->exec($sql);
        }
     }
