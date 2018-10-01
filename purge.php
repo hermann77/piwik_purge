@@ -48,13 +48,17 @@ try {
     
     for($year = 2000; $year <= $purge_till_year; ++$year) {
        for($month = 1; $month <= 12; ++$month) {
+            sleep(1);
             $sql = 'DROP TABLE piwik_archive_blob_' . $year . '_' . $month;
+            print 'SQL (blob): ' . $sql . PHP_EOL;
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $stmt->closeCursor();
             print 'TABLE piwik_archive_blob_' . $year . '_' . $month . ' dropped' . PHP_EOL;
 
+            sleep(1);
             $sql = 'DROP TABLE piwik_archive_numeric_' . $year . '_' . $month;
+            print 'SQL (archive): ' . $sql . PHP_EOL;
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $stmt->closeCursor();
