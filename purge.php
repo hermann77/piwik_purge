@@ -54,7 +54,6 @@ try {
 
             $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-            sleep(1);
             $sql = 'DROP TABLE IF EXISTS piwik_archive_blob_' . $year . '_' . $month;
             print 'SQL (blob): ' . $sql . PHP_EOL;
             $stmt = $pdo->prepare($sql);
@@ -62,7 +61,6 @@ try {
             $stmt->closeCursor();
             print 'TABLE piwik_archive_blob_' . $year . '_' . $month . ' dropped' . PHP_EOL;
 
-            sleep(1);
             $sql = 'DROP TABLE IF EXISTS piwik_archive_numeric_' . $year . '_' . $month;
             print 'SQL (archive): ' . $sql . PHP_EOL;
             $stmt = $pdo->prepare($sql);
