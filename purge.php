@@ -8,6 +8,18 @@ $purge_till_year = ($purge_till_year > 2013) ? 2013 : $purge_till_year; // the m
 $purge_till_date = $purge_till_year . '-12-31';
 
 
+
+/**
+ * Dump Database before purging
+ * 
+ */
+// exec("mysqldump -u $username -p$password $db_name > /data/dumps/$db_name.sql");
+
+
+/**
+ *  Purging Database
+ * 
+ */
 print 'Start purging Piwik/Matomo database' . PHP_EOL;
 print date("h:i:s", time()) . PHP_EOL;
 
