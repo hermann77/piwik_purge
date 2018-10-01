@@ -37,7 +37,9 @@ try {
      * OPTIMIZE
      */
     $sql = 'OPTIMIZE TABLE piwik_log_visit, piwik_log_link_visit_action';
-    $pdo->exec($sql);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $stmt->closeCursor();
     print 'OPTIMIZE executed' . PHP_EOL;
 
 
