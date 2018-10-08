@@ -20,7 +20,7 @@ $purge_till_date = $purge_till_year . '-12-31';
  *  Purging Database
  * 
  */
-print 'Start purging Piwik/Matomo database' . PHP_EOL;
+print 'Start purging Piwik/Matomo database ' . $db_name . PHP_EOL;
 print date("h:i:s", time()) . PHP_EOL;
 
 try {
@@ -84,5 +84,5 @@ catch(PDOException $e) {
 }
 
 
-print 'Finished to purging Piwik/Matomo database' . PHP_EOL;
+print 'Finished to purging Piwik/Matomo database ' . $db_name . PHP_EOL;
 print date("h:i:s", time()) . PHP_EOL;
